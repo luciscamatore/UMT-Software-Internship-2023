@@ -25,25 +25,6 @@ public class main {
         double[] input = parseInput(text);
         return input;
     }
-    public static double[] duplicat(double[] c1)
-    {
-        ArrayList<Double> rez = new ArrayList<Double>();
-        for(int i=0;i<c1.length-1;i++)
-        {
-            if(c1[i] == c1[i+1])
-                i++;
-            else
-                rez.add(c1[i]);
-        }
-        rez.add(c1[c1.length-1]);
-        double[] x = new double[rez.size()];
-        for(int i=0;i<x.length;i++)
-        {
-            x[i] = rez.get(i);
-            System.out.println(x[i]);
-        }
-        return x;
-    }
     public static double[] intervalLiber(double[] c1, double[] l1){
         int lungime = c1.length-1;
 
@@ -62,17 +43,15 @@ public class main {
     }
     public static void comparare(double[] c1, double[] c2)
     {
-        //c1 = Arrays.stream(c1).distinct().toArray();
-        //c2 = Arrays.stream(c2).distinct().toArray();
-        //c1 = duplicat(c1);
-        //c2 = duplicat(c2);
+        c1 = Arrays.stream(c1).distinct().toArray();
+        c2 = Arrays.stream(c2).distinct().toArray();
         double[] rez = new double[Math.min(c1.length,c2.length)];
         for(int i=0;i<rez.length;i+=2)
         {
-            //System.out.println("comparam pe: " + c1[i] + " " + c2[i] + " si " + c1[i+1] + " " + c2[i+1]);
+            System.out.println("comparam pe: " + c1[i] + " " + c2[i] + " si " + c1[i+1] + " " + c2[i+1]);
             rez[i] = Math.max(c1[i], c2[i]);
             rez[i+1] = Math.min(c1[i+1], c2[i+1]);
-            //System.out.println(rez[i] + " " + rez[i+1]);
+            System.out.println(rez[i] + " " + rez[i+1]);
         }
     }
     public static void main(String[] args) {
@@ -88,7 +67,7 @@ public class main {
         //double[] calendar2 = read();
         //System.out.println("Introduceti limitele pentru al doilea calendar");
         //double[] limite2 = read();
-        //comparare(intervalLiber(calendar1,limite1), intervalLiber(calendar2,limite2));
-        duplicat(calendar2);
+        comparare(intervalLiber(calendar1,limite1), intervalLiber(calendar2,limite2));
+        //duplicat(calendar2);
     }
 }
