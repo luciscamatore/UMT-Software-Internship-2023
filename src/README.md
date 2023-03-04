@@ -183,9 +183,9 @@ public static void main(String[] args) {
 ```
 În funcția **main()** citim fiecare calendar împreună cu limitele sale și timpul de întâlnire. Deoarece funcția **until()** ne retureneaza o valoare de tip **long**, timpul de întâlnire trebuie să fie și el la rândul lui de tip **long**.
 
-În continaure sunt prezentate câteva teste realizate cu acest algoritm.
+În continuare sunt prezentate câteva teste realizate cu acest algoritm.
 ```JAVA
-Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']]
 Limite1: ['9:00','20:00']
         
 Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
@@ -197,7 +197,7 @@ Rezultat: [['11:30','12:00'],['15:00','16:00'],['18:00','18:30']]
 ```
 
 ```JAVA
-Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']]
 Limite1: ['8:00','20:00']
         
 Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
