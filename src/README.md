@@ -44,6 +44,7 @@ Formatarea consta in eliminarea tuturor caracterelor care nu sunt necesare, cum 
 - apostroafele
 - spatiile in plus 
 In final obtinem un string de forma:
+
 [['8:00','9:00'], ['11:00','13:00'], ['17:00','18:00']] &rarr; 8:00 9:00 11:00 13:00 17:00 18:00
 ```JAVA
 input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
