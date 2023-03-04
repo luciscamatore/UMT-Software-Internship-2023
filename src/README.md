@@ -2,8 +2,9 @@
 Acest fisier o sa contina explicatia codului din fisierul **main.java**
 
 Presupunerile pe care le-am facut sunt:
-  - orele din calendare sunt doar din 30 in 30 de minute sau din ora in ora
-  - intervalele primite sunt cele ocupate
+  - orele din calendare sunt doar din 30 in 30 de minute sau din ora in ora;
+  - intervalele primite sunt cele ocupate;
+  - timpul de intalnire este doar in minute;
   
 Ideea pe care am abordat-o este urmatoarea:
   - dupa primirea input-ulu, formatam textul, eliminand parantezele, apostroafele, virgulele si spatiile care nu sunt necesare
@@ -133,8 +134,48 @@ Parcurgem primul interval, din doi in doi, stocand limitele fiecarui interval in
 Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a gasi intervale care se intersecteaza. Ca doua intervale sa se intersecteze maximul dintre limitele inferioare trebuie sa fie mai mic decat minimul dintre limitele superioare. De exemplu, pentru intervalele [10:30&rarr;12:00] si [11:30&rarr;12:30]
 - limitele inferioare sunt 10:30 si 11:30, maximul fiind **11:30**
 - limitele superioare sunt 12:00 si 12:30, minimul fiind **12:00**
-Deoarece **11:30** este mai mic decat **12:00** intervelele se intersecteaza.
+- 
+Deoarece **11:30** este mai mic decat **12:00**, intervelele se intersecteaza.
 
+De fiecare data cand aceasta conditie este indeplinita si diferenta de timp dintre aceste limite este mai mare decat timpul de intalnire, adaugam aceste limite in lista de intervale finala.
 
+Ultimul pas este afisarea pe ecran a intervalelor de timp in care cele doua persoane se pot intalni, acest lucru este realizat cu functia **afisare()**.
+```JAVA
+public static void afisare(List<LocalTime> availableTime) {  
+	StringBuilder availableTimeFormat = new StringBuilder();//in continuare formatam array-ul  
+	
+	availableTimeFormat.append("[");
+	
+	for (int i = 0; i < availableTime.size() - 1; i += 2) {
+		availableTimeFormat.append("['").append(availableTime.get(i)).append("','").append(availableTime.get(i + 1)).append("']");  
+		if (i < availableTime.size() - 2) availableTimeFormat.append(",");
+	}  
+	
+	availableTimeFormat.append("]");
+	
+	System.out.println(availableTimeFormat);  
+}
+```
+Formatam lista finala adaugand parantezele patrate, virgulele, apostroafele si spatiile necesare, afisand rezultatul pe ecran.
+```JAVA
+public static void main(String[] args) {  
+	System.out.println("Introduceti datele pentru primul calendar: "); 
+	List<LocalTime> calendar1 = read();  
+  
+	System.out.println("Introduceti limitele pentru primul calendar: "); 
+	List<LocalTime> limit1 = read();  
+	System.out.println("Introduceti datele pentru al doilea calendar: ");  
+	List<LocalTime> calendar2 = read();  
 
-
+	System.out.println("Introduceti limitele pentru al doilea calendar: ");  
+	List<LocalTime> limit2 = read();  
+  
+	System.out.println("Introduceti timpul minim poentru o intalnire: ");  
+	Scanner scanner = new Scanner(System.in);
+	long meetingTime = scanner.nextLong();  
+  
+	afisare(findAvailableTime(intervalLiber(calendar1,limit1), intervalLiber(calendar2,limit2), meetingTime));  
+  
+}
+```
+In functia main citim fiecare calendar impreuna cu limitele sale si timpul de intalnire. Deoarece functia **until()** ne retureneaza o valoare de tip **long**, timpul de intalnire trebuie sa fie si el la randul lui de tip **long**
