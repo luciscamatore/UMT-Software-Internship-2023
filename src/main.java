@@ -123,6 +123,5 @@ public class main {
         long meetingTime = scanner.nextLong();//citim urmatoarea linie
 
         afisare(findAvailableTime(intervalLiber(calendar1,limit1), intervalLiber(calendar2,limit2), meetingTime));
-
     }
 }
