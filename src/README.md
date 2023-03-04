@@ -8,8 +8,8 @@ Presupunerile pe care le-am făcut:
 - timpul de întâlnire este doar în minute;
 
 Ideea pe care am abordat-o este următoarea:
-- după primirea input-ulu, formatăm textul, eliminând parantezele, apostroafele, virgulele și spațiile care nu sunt necesare;
-- după formatare o să creăm o lista de tip **LocalTime** în care stocăm intervalele ocupate;
+- după primirea input-ului, formatăm textul, eliminând parantezele, apostroafele, virgulele și spațiile care nu sunt necesare;
+- după formatare o să creăm o lista de tip **LocalTime** în care stocăm intervalele de timp ocupate;
 - în acea lista o să căutăm intervalele de timp libere;
 - o să comparăm intervalele de timp din primul calendar cu fiecare interval din al doilea calendar pentru a găsit intervalele care se intersectează;
 - creăm lista finală care conține intrevalele în care cele două persoane se pot întâlni;
@@ -51,7 +51,7 @@ In final obținem un string de forma:
 ```JAVA
 input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
 ```
-Putem converti fiecare element de tip **String** în tipul **LocalTime** cu funcția **LocalTime.parse()**, iar formatul ales este *H:mm*, în final obtinând o listă de variabile de tip **LocalTime** pe care o să o prelucrăm in continuare.
+Putem converti fiecare element de tip **String** în tipul **LocalTime** cu funcția **LocalTime.parse()**, iar formatul ales este *H:mm*, în final obținând o listă de variabile de tip **LocalTime** pe care o să o prelucrăm in continuare.
 
 Aceste liste o să treacă prin funcția **intervalLiber()** pentru a fi convertite dintr-o listă de *intervale ocupate* într-o lista de *intervale libere*.
 ```JAVA
@@ -61,6 +61,7 @@ public static List<LocalTime> intervalLiber(List<LocalTime> calendar, List<Local
 	if(limita.get(0).compareTo(calendar.get(0)) < 0) calendarLiber.add(limita.get(0)); 
 ```
 Dacă există timp liber între limita inferioară și prima ora din calendar, o să adăugăm această limita în lista finală.
+
 Exemple:
 - limite: [9:00&rarr;20:00]
 - prima oră din calendar: 10:00
@@ -103,7 +104,7 @@ Intervalele libere fiind:
 - 13:00&rarr;16:00
 -  18:00&rarr;20:00
 
-Cu lista de intervale libere creată, putem lua intervalele din primul calendar și să le comparăm cu fiecare interval din cel de-al doilea interval. Realizăm acest lucru cu ajutorul funcției **findAvailableTime()**, care primește ca parametrii listele de intervale libere și timpul întâlnirii.
+Cu lista de intervale libere creată, putem lua intervalele din primul calendar și să le comparăm cu fiecare interval din cel de-al doilea calendar. Realizăm acest lucru cu ajutorul funcției **findAvailableTime()**, care primește ca parametrii listele de intervale libere și timpul întâlnirii.
 ```JAVA
 public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){ 
 	List<LocalTime> availableTime = new ArrayList<>();
@@ -182,3 +183,63 @@ public static void main(String[] args) {
 ```
 În funcția **main()** citim fiecare calendar împreună cu limitele sale și timpul de întâlnire. Deoarece funcția **until()** ne retureneaza o valoare de tip **long**, timpul de întâlnire trebuie să fie și el la rândul lui de tip **long**.
 
+În continaure sunt prezentate câteva teste realizate cu acest algoritm.
+```JAVA
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]
+Limite1: ['9:00','20:00']
+        
+Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
+Limite2: ['10:00','18:30']
+        
+Timp de intalnire: 30
+        
+Rezultat: [['11:30','12:00'],['15:00','16:00'],['18:00','18:30']]
+```
+
+```JAVA
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]
+Limite1: ['8:00','20:00']
+        
+Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
+Limite2: ['8:00','18:30']
+        
+Timp de intalnire: 30
+        
+Rezultat: [['08:00','09:00'],['11:30','12:00'],['15:00','16:00'],['18:00','18:30']]
+```
+
+```JAVA
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00], ['19:00','19:30']]
+Limite1: ['8:00','20:00']
+        
+Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
+Limite2: ['8:00','20:00']
+        
+Timp de intalnire: 30
+        
+Rezultat: [['08:00','09:00'],['11:30','12:00'],['15:00','16:00'],['18:00','19:00'],['19:30','20:00']]
+```
+
+```JAVA
+Calendar1: [['12:00','13:00'], ['16:00','18:00], ['19:00','19:30']]
+Limite1: ['8:00','19:30']
+        
+Calendar2: [['11:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
+Limite2: ['8:00','20:00']
+        
+Timp de intalnire: 30
+        
+Rezultat: [['08:00','11:00'],['11:30','12:00'],['15:00','16:00'],['18:00','19:00']]
+```
+
+```JAVA
+Calendar1: [['12:00','12:30'], ['16:00','17:00], ['19:00','19:30']]
+Limite1: ['8:00','21:00']
+        
+Calendar2: [['11:00','11:30'], ['12:30','13:00], ['13:30','14:00'], ['15:00','16:00'], ['17:30','18:00'], ['19:30','20:00']]
+Limite2: ['8:00','21:00']
+        
+Timp de intalnire: 30
+        
+Rezultat: [['08:00','11:00'],['11:30','12:00'],['13:00','13:30'],['14:00','15:00'],['17:00','17:30'],['18:00','19:00'],['20:00','21:00']]
+```
