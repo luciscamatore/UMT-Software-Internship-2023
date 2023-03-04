@@ -1,19 +1,20 @@
 
-Acest fisier o sa contina explicatia codului din fisierul **main.java**
+Codul se găsește în fișierul **main.java**
 
-Presupunerile pe care le-am facut sunt:
-  - orele din calendare sunt doar din 30 in 30 de minute sau din ora in ora;
-  - intervalele primite sunt cele ocupate;
-  - timpul de intalnire este doar in minute;
-  
-Ideea pe care am abordat-o este urmatoarea:
-  - dupa primirea input-ulu, formatam textul, eliminand parantezele, apostroafele, virgulele si spatiile care nu sunt necesare
-  - dupa formatare o sa cream o lista de tip **LocalTime** in care o sa stocam intervalele ocupate
-  - in acea lista o sa cautam intervalele de timp libere
-  - o sa comparam intervalele de timp din primul calendar cu fiecare interval din al doilea calendar pentru a gasit intervalele care se intersecteaza
-  - creeam lista finala care contine intrevalele in care cele doua persoane se pot intalni
+Presupunerile pe care le-am făcut:
 
-Primul pas a fost sa citim de la tastatura datele primite, acest lucru se poate realiza cu functia **read()** .
+- orele din calendare sunt doar din 30 în 30 de minute sau din ora în ora;
+- intervalele primite sunt cele ocupate;
+- timpul de întâlnire este doar în minute;
+
+Ideea pe care am abordat-o este următoarea:
+- după primirea input-ulu, formatăm textul, eliminând parantezele, apostroafele, virgulele și spațiile care nu sunt necesare;
+- după formatare o să creăm o lista de tip **LocalTime** în care stocăm intervalele ocupate;
+- în acea lista o să căutăm intervalele de timp libere;
+- o să comparăm intervalele de timp din primul calendar cu fiecare interval din al doilea calendar pentru a găsit intervalele care se intersectează;
+- creăm lista finală care conține intrevalele în care cele două persoane se pot întâlni;
+
+Primul pas a fost să citim de la tastatură datele primite, acest lucru se poate realiza cu funcția **read()** .
 ```JAVA
 public static List<LocalTime> read(){  
 	Scanner scanner = new Scanner(System.in);
@@ -21,7 +22,7 @@ public static List<LocalTime> read(){
 	return convertInput(text);  
 }
 ```
-Aceasta functie citeste textul sub forma de **String**, care mai apoi este trimis ca si parametru functiei **convertInput()** pentru formatare.
+Această funcție citește textul sub formă de **String**, care mai apoi este trimis că și parametru funcției **convertInput()** pentru formatare.
 ```JAVA
 private static List<LocalTime> convertInput(String text) {  
 	text = text.replaceAll("[\\[\\]]", "");
@@ -39,70 +40,70 @@ private static List<LocalTime> convertInput(String text) {
     return input;
 }
 ```
-Formatarea consta in eliminarea tuturor caracterelor care nu sunt necesare, cum ar fi:
-- parantezele patrate
-- virgulele
-- apostroafele
-- spatiile in plus 
+Formatarea constă în eliminarea tuturor caracterelor care nu sunt necesare, cum ar fi:
+- parantezele pătrate;
+- virgulele;
+- apostroafele;
+- spațiile in plus ;
 
-In final obtinem un string de forma:
+In final obținem un string de forma:
 [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']] &rarr; 9:00 10:30 12:00 13:00 16:00 18:00
 ```JAVA
 input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
 ```
-Putem converti fiecare element de tip **String** in tipul **LocalTime** cu functia **LocalTime.parse()**, iar formatul ales este *H:mm*, in final obtinand o lista de variabile de tip **LocalTime** pe care o sa o prelucram in continuare.
+Putem converti fiecare element de tip **String** în tipul **LocalTime** cu funcția **LocalTime.parse()**, iar formatul ales este *H:mm*, în final obtinând o listă de variabile de tip **LocalTime** pe care o să o prelucrăm in continuare.
 
-Aceste liste o sa treaca prin functia **intervalLiber()** pentru a fi convertite dintr-o lista de *intervale ocupate* intr-o lista de *intervale libere*
+Aceste liste o să treacă prin funcția **intervalLiber()** pentru a fi convertite dintr-o listă de *intervale ocupate* într-o lista de *intervale libere*.
 ```JAVA
 public static List<LocalTime> intervalLiber(List<LocalTime> calendar, List<LocalTime> limita){
 	List<LocalTime> calendarLiber = new ArrayList<>();
 	
 	if(limita.get(0).compareTo(calendar.get(0)) < 0) calendarLiber.add(limita.get(0)); 
 ```
-Daca exista timp liber intre limita inferioara si prima ora din calendar, o sa adaugam aceasta limita in lista finala.
+Dacă există timp liber între limita inferioară și prima ora din calendar, o să adăugăm această limita în lista finală.
 Exemple:
- - limite: [9:00&rarr;20:00]
- - prima ora din calendar: 10:00
- - avem timp liber intre [9:00&rarr;10:00]
+- limite: [9:00&rarr;20:00]
+- prima oră din calendar: 10:00
+- avem timp liber intre [9:00&rarr;10:00]
 ```JAVA 
 	for(int i = 0; i< calendar.size()-1; i++) {  
 		if (calendar.get(i).equals(calendar.get(i + 1))) {  
 			i++;
 ```
-Daca exista duplicate, le eliminam sarind peste doua elemente, deoarece nu sunt necesare, de exemplu intervalul [12:30&rarr;14:30], [14:30&rarr;15:00] este echivalent cu intervalul [12:30&rarr;15:00].
+Dacă există duplicate, le eliminăm sărind peste două elemente, deoarece nu sunt necesare, de exemplu intervalul [12:30&rarr;14:30], [14:30&rarr;15:00] este echivalent cu intervalul [12:30&rarr;15:00].
 ```JAVA
 		} else if(calendar.get(i).equals(limita.get(0))) {  
 			i++;
 			calendarLiber.add(calendar.get(i));
 ```
-Daca nu avem timp liber intre limita inferioara si prima ora din calendar, nu o sa adaugam nici limita nici ora in lista, sarind peste un element.
+Dacă nu avem timp liber între limita inferioară și prima oră din calendar, nu o să adăugăm nici limita nici ora în listă, sărind peste un element.
 ```JAVA
 		}else {  
 			calendarLiber.add(calendar.get(i));
 			}	
 		}
 ```
-Daca nici o conditie nu este indeplinita adaugam elementul in lista.
+Dacă nici o condiție nu este îndeplinită adăugăm elementul în listă.
 ```JAVA
 		calendarLiber.add(calendar.get(calendar.size()-1));   
 ```
-Deoarece am parcurs numai pana la **calendar.size()-2**, nu o sa ajungem la ultimul element asa ca o sa il adaugam la final.
+Deoarece am parcurs lista până la **calendar.size()-2**, nu o să ajungem la ultimul element așa că o să îl adăugăm la final.
 ```JAVA		
 	if(limita.get(1).compareTo(calendar.get(calendar.size() - 1)) >0) calendarLiber.add(limita.get(1));
 	
 	return calendarLiber;
 }
 ```
-Continuam prin a verifica daca avem timp liber la finalul calendarului comparand limita superioara cu ultima ora din calendar.
+Continuăm prin a verifica dacă avem timp liber la finalul calendarului comparând limita superioară cu ultima oră din calendar.
 
-In final, dupa aceasta functie, o sa primim o lista de intervale libere:
+În final, după această funcție, o să primim o listă de intervale libere:
 9:00 10:30 12:00 13:00 16:00 18:00 &rarr; 10:30 12:00 13:00 16:00 18:00 20:00
-Intervalele libere fiind
-- 10:30&rarr;12:00 
+Intervalele libere fiind:
+- 10:30&rarr;12:00
 - 13:00&rarr;16:00
 -  18:00&rarr;20:00
 
-Cu lista de intervale libere creata, putem lua intervalele din primul calendar si sa le comparam cu fiecare interval din cel de-al doilea interval. Realizam acest lucru cu ajutorul functiei **findAvailableTime()**, care primeste ca parametrii listele de intervale libere si timpul intalnirii.
+Cu lista de intervale libere creată, putem lua intervalele din primul calendar și să le comparăm cu fiecare interval din cel de-al doilea interval. Realizăm acest lucru cu ajutorul funcției **findAvailableTime()**, care primește ca parametrii listele de intervale libere și timpul întâlnirii.
 ```JAVA
 public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){ 
 	List<LocalTime> availableTime = new ArrayList<>();
@@ -112,7 +113,7 @@ public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<
 		LocalTime limitaJos = calendar1.get(j);
 		LocalTime limitaSus = calendar1.get(j+1);
 ```
-Parcurgem primul interval, din doi in doi, stocand limitele fiecarui interval in variabilele **limitaJos** si **limitaSus**, de exemplu, pentru acest interval 10:30 12:00 13:00 16:00 18:00 20:00, limitele o sa fie:
+Parcurgem primul interval, din doi în doi, stocând limitele fiecărui interval în variabilele **limitaJos** și **limitaSus**, de exemplu, pentru acest interval 10:30 12:00 13:00 16:00 18:00 20:00, limitele o să fie:
 - **limitaJos** = 10:30, **limitaSus** = 12:00;
 -  **limitaJos** = 13:00, **limitaSus** = 16:00;
 -  **limitaJos** = 18:00, **limitaSus** = 20:00;
@@ -131,15 +132,15 @@ Parcurgem primul interval, din doi in doi, stocand limitele fiecarui interval in
 	return availableTime;  
 }
 ```
-Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a gasi intervale care se intersecteaza. Ca doua intervale sa se intersecteze maximul dintre limitele inferioare trebuie sa fie mai mic decat minimul dintre limitele superioare. De exemplu, pentru intervalele [10:30&rarr;12:00] si [11:30&rarr;12:30]
-- limitele inferioare sunt 10:30 si 11:30, maximul fiind **11:30**
-- limitele superioare sunt 12:00 si 12:30, minimul fiind **12:00**
-- 
-Deoarece **11:30** este mai mic decat **12:00**, intervelele se intersecteaza.
+Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a găsi intervale care se intersectează. Ca două intervale să se intersecteze maximul dintre limitele inferioare trebuie să fie mai mic decât minimul dintre limitele superioare. De exemplu, pentru intervalele [10:30&rarr;12:00] si [11:30&rarr;12:30]
+- limitele inferioare sunt 10:30 si 11:30, maximul fiind **11:30**;
+- limitele superioare sunt 12:00 si 12:30, minimul fiind **12:00**;
 
-De fiecare data cand aceasta conditie este indeplinita si diferenta de timp dintre aceste limite este mai mare decat timpul de intalnire, adaugam aceste limite in lista de intervale finala.
+Deoarece **11:30** este mai mic decât **12:00**, intervalele se intersecteaza.
 
-Ultimul pas este afisarea pe ecran a intervalelor de timp in care cele doua persoane se pot intalni, acest lucru este realizat cu functia **afisare()**.
+De fiecare dată când această condiție este îndeplinită și diferența de timp dintre aceste limite este mai mare decât timpul de întâlnire, adăugăm aceste limite în lista finală de intervale.
+
+Ultimul pas este afișarea pe ecran a intervalelor de timp în care cele două persoane se pot întâlni, acest lucru este realizat cu funcția **afișare()**.
 ```JAVA
 public static void afisare(List<LocalTime> availableTime) {  
 	StringBuilder availableTimeFormat = new StringBuilder();//in continuare formatam array-ul  
@@ -156,7 +157,7 @@ public static void afisare(List<LocalTime> availableTime) {
 	System.out.println(availableTimeFormat);  
 }
 ```
-Formatam lista finala adaugand parantezele patrate, virgulele, apostroafele si spatiile necesare, afisand rezultatul pe ecran.
+Formatăm lista finală adăugând parantezele pătrate, virgulele, apostroafele și spațiile necesare, afișând rezultatul pe ecran.
 ```JAVA
 public static void main(String[] args) {  
 	System.out.println("Introduceti datele pentru primul calendar: "); 
@@ -164,6 +165,7 @@ public static void main(String[] args) {
   
 	System.out.println("Introduceti limitele pentru primul calendar: "); 
 	List<LocalTime> limit1 = read();  
+	
 	System.out.println("Introduceti datele pentru al doilea calendar: ");  
 	List<LocalTime> calendar2 = read();  
 
@@ -178,4 +180,4 @@ public static void main(String[] args) {
   
 }
 ```
-In functia main citim fiecare calendar impreuna cu limitele sale si timpul de intalnire. Deoarece functia **until()** ne retureneaza o valoare de tip **long**, timpul de intalnire trebuie sa fie si el la randul lui de tip **long**
+În funcția **main()** citim fiecare calendar împreună cu limitele sale și timpul de întâlnire. Deoarece funcția **until()** ne retureneaza o valoare de tip **long**, timpul de întâlnire trebuie să fie și el la rândul lui de tip **long**.
