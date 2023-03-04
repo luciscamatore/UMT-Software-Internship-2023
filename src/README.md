@@ -180,4 +180,4 @@ public static void main(String[] args) {
   
 }
 ```
-În funcția main citim fiecare calendar împreună cu limitele sale și timpul de întâlnire. Deoarece funcția **until()** ne retureneaza o valoare de tip **long**, timpul de întâlnire trebuie să fie și el la rândul lui de tip **long**.
+În funcția **main()** citim fiecare calendar împreună cu limitele sale și timpul de întâlnire. Deoarece funcția **until()** ne retureneaza o valoare de tip **long**, timpul de întâlnire trebuie să fie și el la rândul lui de tip **long**.
