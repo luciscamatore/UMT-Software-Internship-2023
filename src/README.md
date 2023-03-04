@@ -45,35 +45,80 @@ Formatarea consta in eliminarea tuturor caracterelor care nu sunt necesare, cum 
 - spatiile in plus 
 
 In final obtinem un string de forma:
-[['8:00','9:00'], ['11:00','13:00'], ['17:00','18:00']] &rarr; 8:00 9:00 11:00 13:00 17:00 18:00
+[['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']] &rarr; 9:00 10:30 12:00 13:00 16:00 18:00
 ```JAVA
 input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
 ```
 Putem converti fiecare element de tip **String** in tipul **LocalTime** cu functia **LocalTime.parse()**, iar formatul ales este *H:mm*, in final obtinand o lista de variabile de tip **LocalTime** pe care o sa o prelucram in continuare.
-Aceste liste de tipul 
+
+Aceste liste o sa treaca prin functia **intervalLiber()** pentru a fi convertite dintr-o lista de *intervale ocupate* intr-o lista de *intervale libere*
 ```JAVA
 public static List<LocalTime> intervalLiber(List<LocalTime> calendar, List<LocalTime> limita){
 	List<LocalTime> calendarLiber = new ArrayList<>();
 	
 	if(limita.get(0).compareTo(calendar.get(0)) < 0) calendarLiber.add(limita.get(0)); 
 ```
-	 
+Daca exista timp liber intre limita inferioara si prima ora din calendar, o sa adaugam aceasta limita in lista finala.
+Exemple:
+ - limite: [9:00&rarr;20:00]
+ - prima ora din calendar: 10:00
+ - avem timp liber intre [9:00&rarr;10:00]
 ```JAVA 
-	for(int i = 0; i< calendar.size()-1; i++) {//iteram prin calendarul primit ca si argument  
+	for(int i = 0; i< calendar.size()-1; i++) {  
 		if (calendar.get(i).equals(calendar.get(i + 1))) {  
 			i++;
+```
+Daca exista duplicate, le eliminam sarind peste doua elemente, deoarece nu sunt necesare, de exemplu intervalul [12:30&rarr;14:30], [14:30&rarr;15:00] este echivalent cu intervalul [12:30&rarr;15:00].
+```JAVA
 		} else if(calendar.get(i).equals(limita.get(0))) {  
 			i++;
 			calendarLiber.add(calendar.get(i));
+```
+Daca nu avem timp liber intre limita inferioara si prima ora din calendar, nu o sa adaugam nici limita nici ora in lista, sarind peste un element.
+```JAVA
 		}else {  
 			calendarLiber.add(calendar.get(i));
 			}	
 		}
+```
+Daca nici o conditie nu este indeplinita adaugam elementul in lista.
+```JAVA
 		calendarLiber.add(calendar.get(calendar.size()-1));   
 ```
+Deoarece am parcurs numai pana la **calendar.size()-2**, nu o sa ajungem la ultimul element asa ca o sa il adaugam la final.
 ```JAVA		
 	if(limita.get(1).compareTo(calendar.get(calendar.size() - 1)) >0) calendarLiber.add(limita.get(1));
 	
 	return calendarLiber;
+}
+```
+Continuam prin a verifica daca avem timp liber la finalul calendarului comparand limita superioara cu ultima ora din calendar.
+
+In final, dupa aceasta functie, o sa primim o lista de intervale libere:
+9:00 10:30 12:00 13:00 16:00 18:00 &rarr; 10:30 12:00 13:00 16:00 18:00 20:00
+Intervalele libere fiind
+- 10:30&rarr;12:00 
+- 13:00&rarr;16:00
+-  18:00&rarr;20:00
+
+```JAVA
+public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){ 
+	List<LocalTime> availableTime = new ArrayList<>();
+	for(int j=0;j<calendar1.size()-1;j+=2)
+	{  
+		LocalTime limitaJos = calendar1.get(j);
+		LocalTime limitaSus = calendar1.get(j+1); 
+		for(int i=0;i<calendar2.size()-1;i+=2) 
+		{  
+			LocalTime max = timeMax(limitaJos,calendar2.get(i));
+			LocalTime min = timeMin(limitaSus,calendar2.get(i+1));
+			if((max.compareTo(min) < 0) && max.until(min, ChronoUnit.MINUTES) >= meetingTime) 			
+			{  
+				availableTime.add(max);  
+				availableTime.add(min);//le adaugam in noua lista  
+			}  
+		}  
+	}  
+return availableTime;  
 }
 ```
