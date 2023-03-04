@@ -43,10 +43,37 @@ Formatarea consta in eliminarea tuturor caracterelor care nu sunt necesare, cum 
 - virgulele
 - apostroafele
 - spatiile in plus 
-In final obtinem un string de forma:
 
+In final obtinem un string de forma:
 [['8:00','9:00'], ['11:00','13:00'], ['17:00','18:00']] &rarr; 8:00 9:00 11:00 13:00 17:00 18:00
 ```JAVA
 input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
 ```
-Putem converti fiecare element de tip **String** in **LocalTime** cu functia **LocalTime.parse()**, iar formatul ales este *H:mm*, in final obtinand o lista de variabile de tip **LocalTime** pe care o sa o prelucram in continuare.
+Putem converti fiecare element de tip **String** in tipul **LocalTime** cu functia **LocalTime.parse()**, iar formatul ales este *H:mm*, in final obtinand o lista de variabile de tip **LocalTime** pe care o sa o prelucram in continuare.
+Aceste liste de tipul 
+```JAVA
+public static List<LocalTime> intervalLiber(List<LocalTime> calendar, List<LocalTime> limita){
+	List<LocalTime> calendarLiber = new ArrayList<>();
+	
+	if(limita.get(0).compareTo(calendar.get(0)) < 0) calendarLiber.add(limita.get(0)); 
+```
+	 
+```JAVA 
+	for(int i = 0; i< calendar.size()-1; i++) {//iteram prin calendarul primit ca si argument  
+		if (calendar.get(i).equals(calendar.get(i + 1))) {  
+			i++;
+		} else if(calendar.get(i).equals(limita.get(0))) {  
+			i++;
+			calendarLiber.add(calendar.get(i));
+		}else {  
+			calendarLiber.add(calendar.get(i));
+			}	
+		}
+		calendarLiber.add(calendar.get(calendar.size()-1));   
+```
+```JAVA		
+	if(limita.get(1).compareTo(calendar.get(calendar.size() - 1)) >0) calendarLiber.add(limita.get(1));
+	
+	return calendarLiber;
+}
+```
