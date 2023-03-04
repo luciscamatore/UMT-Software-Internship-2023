@@ -12,7 +12,7 @@ Ideea pe care am abordat-o este urmatoarea:
   - o sa comparam intervalele de timp din primul calendar cu fiecare interval din al doilea calendar pentru a gasit intervalele care se intersecteaza
   - creeam lista finala care contine intrevalele in care cele doua persoane se pot intalni
 
-Primul pas a fost sa citim de la tastatura datele primite, acest lucru se poate realiza cu functia **read()** 
+Primul pas a fost sa citim de la tastatura datele primite, acest lucru se poate realiza cu functia **read()** .
 ```JAVA
 public static List<LocalTime> read(){  
 	Scanner scanner = new Scanner(System.in);
@@ -20,7 +20,7 @@ public static List<LocalTime> read(){
 	return convertInput(text);  
 }
 ```
-Aceasta functie citeste textul sub forma de **String**, care mai apoi este trimis ca si parametru functiei **convertInput()**
+Aceasta functie citeste textul sub forma de **String**, care mai apoi este trimis ca si parametru functiei **convertInput()** pentru formatare.
 ```JAVA
 private static List<LocalTime> convertInput(String text) {  
 	text = text.replaceAll("[\\[\\]]", "");
@@ -35,6 +35,17 @@ private static List<LocalTime> convertInput(String text) {
 	for (String s : str) { 
 	  input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));  
 	}	  
-    return input; //returnam array-ul final  
+    return input;
 }
 ```
+Formatarea consta in eliminarea tuturor caracterelor care nu sunt necesare, cum ar fi:
+- parantezele patrate
+- virgulele
+- apostroafele
+- spatiile in plus 
+In final obtinem un string de forma:
+[['8:00','9:00'], ['11:00','13:00'], ['17:00','18:00']] &rarr; 8:00 9:00 11:00 13:00 17:00 18:00
+```JAVA
+input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
+```
+Putem converti fiecare element de tip **String** in **LocalTime** cu functia **LocalTime.parse()**, iar formatul ales este *H:mm*, in final obtinand o lista de variabile de tip **LocalTime** pe care o sa o prelucram in continuare.
