@@ -1,5 +1,5 @@
 
-Acest fisier o sa contina explicatia codului din fisierul "main.java"
+Acest fisier o sa contina explicatia codului din fisierul **main.java**
 
 Presupunerile pe care le-am facut sunt:
   - orele din calendare sunt doar din 30 in 30 de minute sau din ora in ora
@@ -101,13 +101,21 @@ Intervalele libere fiind
 - 13:00&rarr;16:00
 -  18:00&rarr;20:00
 
+Cu lista de intervale libere creata, putem lua intervalele din primul calendar si sa le comparam cu fiecare interval din cel de-al doilea interval. Realizam acest lucru cu ajutorul functiei **findAvailableTime()**, care primeste ca parametrii listele de intervale libere si timpul intalnirii.
 ```JAVA
 public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){ 
 	List<LocalTime> availableTime = new ArrayList<>();
+
 	for(int j=0;j<calendar1.size()-1;j+=2)
 	{  
 		LocalTime limitaJos = calendar1.get(j);
-		LocalTime limitaSus = calendar1.get(j+1); 
+		LocalTime limitaSus = calendar1.get(j+1);
+```
+Parcurgem primul interval, din doi in doi, stocand limitele fiecarui interval in variabilele **limitaJos** si **limitaSus**, de exemplu, pentru acest interval 10:30 12:00 13:00 16:00 18:00 20:00, limitele o sa fie:
+- **limitaJos** = 10:30, **limitaSus** = 12:00;
+-  **limitaJos** = 13:00, **limitaSus** = 16:00;
+-  **limitaJos** = 18:00, **limitaSus** = 20:00;
+```JAVA
 		for(int i=0;i<calendar2.size()-1;i+=2) 
 		{  
 			LocalTime max = timeMax(limitaJos,calendar2.get(i));
@@ -115,10 +123,14 @@ public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<
 			if((max.compareTo(min) < 0) && max.until(min, ChronoUnit.MINUTES) >= meetingTime) 			
 			{  
 				availableTime.add(max);  
-				availableTime.add(min);//le adaugam in noua lista  
+				availableTime.add(min);
 			}  
 		}  
 	}  
-return availableTime;  
+	return availableTime;  
 }
 ```
+Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a gasi intervale care se intersecteaza. Ca doua intervale sa se intersecteze maximul dintre limitele inferioare trebuie sa fie mai mic decat minimul dintre limitele superioare. De exemplu, intervalul [10:30&rarr;12:00] se intersecteaza cu [11:30&rarr;12:30] deoarece 11:30 < 12:30. 
+
+
+
