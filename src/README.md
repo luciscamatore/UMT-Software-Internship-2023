@@ -6,6 +6,7 @@ Presupunerile pe care le-am făcut:
 - orele din calendare sunt doar din 30 în 30 de minute sau din ora în ora;
 - intervalele primite sunt cele ocupate;
 - timpul de întâlnire este doar în minute;
+- input-ul conține doar intervalele de timp, fară alte texte
 
 Ideea pe care am abordat-o este următoarea:
 - după primirea input-ului, formatăm textul, eliminând parantezele, apostroafele, virgulele și spațiile care nu sunt necesare;

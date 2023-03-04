@@ -14,17 +14,17 @@ public class main {
         text = text.replaceAll(",", " "); //eliminam virgula simpla
         //in final string-ul o sa fie de forma 9:00 10:30 16:00 18:00
         String[] str = text.split(" "); // in str introducem toate orele separate la feicare spatiu
-        List<LocalTime> input = new ArrayList<>(); //sirul in care o sa fie output-ul de tipul LocalTime
+        List<LocalTime> input = new ArrayList<>(); //lista in care o sa fie output-ul de tipul LocalTime
 
         for (String s : str) { //iteram prin fiecare element a lui str
             input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));//in input adaugam elementul din str convertit in tipul LocalTime dupa formatul "H:mm"
         }
-        return input; //returnam array-ul final
+        return input; //returnam lista finala
     }
     public static List<LocalTime> read(){
         //o sa presupunem ca input-ul o sa fie de forma [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]],
         //textul pentru fiecare input fiind deja prezent pe ecran
-        Scanner scanner = new Scanner(System.in); //creeam o variabila scanner pentru a putea citi liniile de la tastatura
+        Scanner scanner = new Scanner(System.in); //cream o variabila scanner pentru a putea citi liniile de la tastatura
         String text = scanner.nextLine(); //citim urmatoarea linie
         return convertInput(text); //returnam input-ul convertit din string in LocalTime
     }
@@ -33,7 +33,7 @@ public class main {
         List<LocalTime> calendarLiber = new ArrayList<>();//lista in care o sa adaugam intervalele libere
 
         if(limita.get(0).compareTo(calendar.get(0)) < 0) calendarLiber.add(limita.get(0));
-        //daca limita inferioara este mai mica decat prima ora din calenar inseamna ca intre cele doua exista un interval liber
+        //daca limita inferioara este mai mica decat prima ora din calendar inseamna ca intre cele doua exista un interval liber
         //pe care il adaugam in lista
 
         for(int i = 0; i< calendar.size()-1; i++) {//iteram prin calendarul primit ca si argument
@@ -45,15 +45,15 @@ public class main {
                 i++;//daca limita inferioara si prima ora din caledar sunt egale nu le adaugam in noul array
                 calendarLiber.add(calendar.get(i));//sarim peste prima ora si o adaugam pe urmatoarea
             }else {
-                calendarLiber.add(calendar.get(i));//daca nu este indeplinita nici o conditie speciala pur si siplu adaugam ora in noul array
+                calendarLiber.add(calendar.get(i));//daca nu este indeplinita nici o conditie adaugam ora in noua lista
             }
         }
         calendarLiber.add(calendar.get(calendar.size()-1));//deoarece mai sus a fost nevoie sa iteram pana la calendar.size()-2 nu o sa ajungem la ultimul element
         //il adaugam aici la final
 
         if(limita.get(1).compareTo(calendar.get(calendar.size() - 1)) > 0) calendarLiber.add(limita.get(1));
-        //daca limita superioara este mai mare decat ultima ora din calendar o adaugam si pe aceasta in array
-        return calendarLiber;//in final am obtinut un array cu intervale libere
+        //daca limita superioara este mai mare decat ultima ora din calendar o adaugam si pe aceasta in lista
+        return calendarLiber;//in final am obtinut o lista cu intervale libere
     }
     public static LocalTime timeMax(LocalTime t1, LocalTime t2){//functie pentru a determina maximul dintre doua variabile de tip LocalTime
         //primim ca si parametrii doua variabile de tip LocalTime
@@ -68,13 +68,13 @@ public class main {
     }
         public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){//aici se intampla magia
             //primim ca si parametrii doua liste cu intervalele libere si timpul de intalnire
-            List<LocalTime> availableTime = new ArrayList<>();//array-ul in care stocam intervalele libere
-            //in aceasta functie luam fiecare interval din primul calendar si verificam cu care interval se potriveste din al doilea interval
-            for(int j=0;j<calendar1.size()-1;j+=2)//parcurgem primul interval din 2 in 2
+            List<LocalTime> availableTime = new ArrayList<>();//lista in care stocam intervalele libere
+            //in aceasta functie luam fiecare interval din primul calendar si verificam cu care interval se potriveste din al doilea calendar
+            for(int j=0;j<calendar1.size()-1;j+=2)//parcurgem primul calendar din 2 in 2
             {
                 LocalTime limitaJos = calendar1.get(j);//stocam limita de jos a primului interval liber
                 LocalTime limitaSus = calendar1.get(j+1);//stocam limita de sus a primului interval liber
-                for(int i=0;i<calendar2.size()-1;i+=2)//parcurgem cel de-al doilea interval liber
+                for(int i=0;i<calendar2.size()-1;i+=2)//parcurgem cel de-al doilea calendar
                 {
                     LocalTime max = timeMax(limitaJos,calendar2.get(i));//maximul dintre limitele de jos ale intervalelor
                     LocalTime min = timeMin(limitaSus,calendar2.get(i+1));//minimul dintre limitele de sus ale intervalelor
@@ -91,11 +91,11 @@ public class main {
         }
     public static void afisare(List<LocalTime> availableTime) {
         //primim ca si parametru lista cu intervalele in care cele doua persoane se pot intalni
-        StringBuilder availableTimeFormat = new StringBuilder();//in continuare formatam array-ul
+        StringBuilder availableTimeFormat = new StringBuilder();//in continuare formatam lista
         availableTimeFormat.append("[");//prima paranteza patrata
-        for (int i = 0; i < availableTime.size() - 1; i += 2) {//parcurgem array-ul pentru a adauga elementele necesare
+        for (int i = 0; i < availableTime.size() - 1; i += 2) {//parcurgem lista pentru a adauga elementele necesare
             availableTimeFormat.append("['").append(availableTime.get(i)).append("','").append(availableTime.get(i + 1)).append("']");
-            if (i < availableTime.size() - 2) availableTimeFormat.append(",");//ca sa nu punem virgula la ultimul
+            if (i < availableTime.size() - 2) availableTimeFormat.append(",");//ca sa nu punem virgula la final de tot
         }
         availableTimeFormat.append("]");//ultima paranteza patrata
         System.out.println(availableTimeFormat);//afisam pe ecran rezultatul
