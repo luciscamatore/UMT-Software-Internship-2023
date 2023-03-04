@@ -1,5 +1,5 @@
 
-Acest fisier o sa contina explicatia codului din fisierul **main.java**
+Acest fisier o sa contina explicatia algoritmului abordat in fisierul **main.java**
 
 Presupunerile pe care le-am facut sunt:
   - orele din calendare sunt doar din 30 in 30 de minute sau din ora in ora;
@@ -7,11 +7,11 @@ Presupunerile pe care le-am facut sunt:
   - timpul de intalnire este doar in minute;
   
 Ideea pe care am abordat-o este urmatoarea:
-  - dupa primirea input-ulu, formatam textul, eliminand parantezele, apostroafele, virgulele si spatiile care nu sunt necesare
-  - dupa formatare o sa cream o lista de tip **LocalTime** in care o sa stocam intervalele ocupate
-  - in acea lista o sa cautam intervalele de timp libere
-  - o sa comparam intervalele de timp din primul calendar cu fiecare interval din al doilea calendar pentru a gasit intervalele care se intersecteaza
-  - creeam lista finala care contine intrevalele in care cele doua persoane se pot intalni
+  - dupa primirea input-ulu, formatam textul, eliminand parantezele, apostroafele, virgulele si spatiile care nu sunt necesare;
+  - dupa formatare o sa cream o lista de tip **LocalTime** in care stocam intervalele ocupate;
+  - in acea lista o sa cautam intervalele de timp libere;
+  - o sa comparam intervalele de timp din primul calendar cu fiecare interval din al doilea calendar pentru a gasit intervalele care se intersecteaza;
+  - creeam lista finala care contine intrevalele in care cele doua persoane se pot intalni;
 
 Primul pas a fost sa citim de la tastatura datele primite, acest lucru se poate realiza cu functia **read()** .
 ```JAVA
@@ -40,10 +40,10 @@ private static List<LocalTime> convertInput(String text) {
 }
 ```
 Formatarea consta in eliminarea tuturor caracterelor care nu sunt necesare, cum ar fi:
-- parantezele patrate
-- virgulele
-- apostroafele
-- spatiile in plus 
+- parantezele patrate;
+- virgulele;
+- apostroafele;
+- spatiile in plus ;
 
 In final obtinem un string de forma:
 [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']] &rarr; 9:00 10:30 12:00 13:00 16:00 18:00
@@ -52,7 +52,7 @@ input.add(LocalTime.parse(s, DateTimeFormatter.ofPattern("H:mm")));
 ```
 Putem converti fiecare element de tip **String** in tipul **LocalTime** cu functia **LocalTime.parse()**, iar formatul ales este *H:mm*, in final obtinand o lista de variabile de tip **LocalTime** pe care o sa o prelucram in continuare.
 
-Aceste liste o sa treaca prin functia **intervalLiber()** pentru a fi convertite dintr-o lista de *intervale ocupate* intr-o lista de *intervale libere*
+Aceste liste o sa treaca prin functia **intervalLiber()** pentru a fi convertite dintr-o lista de *intervale ocupate* intr-o lista de *intervale libere*.
 ```JAVA
 public static List<LocalTime> intervalLiber(List<LocalTime> calendar, List<LocalTime> limita){
 	List<LocalTime> calendarLiber = new ArrayList<>();
@@ -86,7 +86,7 @@ Daca nici o conditie nu este indeplinita adaugam elementul in lista.
 ```JAVA
 		calendarLiber.add(calendar.get(calendar.size()-1));   
 ```
-Deoarece am parcurs numai pana la **calendar.size()-2**, nu o sa ajungem la ultimul element asa ca o sa il adaugam la final.
+Deoarece am parcurs lista pana la **calendar.size()-2**, nu o sa ajungem la ultimul element asa ca o sa il adaugam la final.
 ```JAVA		
 	if(limita.get(1).compareTo(calendar.get(calendar.size() - 1)) >0) calendarLiber.add(limita.get(1));
 	
@@ -97,8 +97,8 @@ Continuam prin a verifica daca avem timp liber la finalul calendarului comparand
 
 In final, dupa aceasta functie, o sa primim o lista de intervale libere:
 9:00 10:30 12:00 13:00 16:00 18:00 &rarr; 10:30 12:00 13:00 16:00 18:00 20:00
-Intervalele libere fiind
-- 10:30&rarr;12:00 
+Intervalele libere fiind:
+- 10:30&rarr;12:00
 - 13:00&rarr;16:00
 -  18:00&rarr;20:00
 
@@ -132,12 +132,12 @@ Parcurgem primul interval, din doi in doi, stocand limitele fiecarui interval in
 }
 ```
 Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a gasi intervale care se intersecteaza. Ca doua intervale sa se intersecteze maximul dintre limitele inferioare trebuie sa fie mai mic decat minimul dintre limitele superioare. De exemplu, pentru intervalele [10:30&rarr;12:00] si [11:30&rarr;12:30]
-- limitele inferioare sunt 10:30 si 11:30, maximul fiind **11:30**
-- limitele superioare sunt 12:00 si 12:30, minimul fiind **12:00**
-- 
-Deoarece **11:30** este mai mic decat **12:00**, intervelele se intersecteaza.
+- limitele inferioare sunt 10:30 si 11:30, maximul fiind **11:30**;
+- limitele superioare sunt 12:00 si 12:30, minimul fiind **12:00**;
 
-De fiecare data cand aceasta conditie este indeplinita si diferenta de timp dintre aceste limite este mai mare decat timpul de intalnire, adaugam aceste limite in lista de intervale finala.
+Deoarece **11:30** este mai mic decat **12:00**, intervalele se intersecteaza.
+
+De fiecare data cand aceasta conditie este indeplinita si diferenta de timp dintre aceste limite este mai mare decat timpul de intalnire, adaugam aceste limite in lista finala de intervale.
 
 Ultimul pas este afisarea pe ecran a intervalelor de timp in care cele doua persoane se pot intalni, acest lucru este realizat cu functia **afisare()**.
 ```JAVA
@@ -164,6 +164,7 @@ public static void main(String[] args) {
   
 	System.out.println("Introduceti limitele pentru primul calendar: "); 
 	List<LocalTime> limit1 = read();  
+	
 	System.out.println("Introduceti datele pentru al doilea calendar: ");  
 	List<LocalTime> calendar2 = read();  
 
@@ -178,4 +179,4 @@ public static void main(String[] args) {
   
 }
 ```
-In functia main citim fiecare calendar impreuna cu limitele sale si timpul de intalnire. Deoarece functia **until()** ne retureneaza o valoare de tip **long**, timpul de intalnire trebuie sa fie si el la randul lui de tip **long**
+In functia main citim fiecare calendar impreuna cu limitele sale si timpul de intalnire. Deoarece functia **until()** ne retureneaza o valoare de tip **long**, timpul de intalnire trebuie sa fie si el la randul lui de tip **long**.
