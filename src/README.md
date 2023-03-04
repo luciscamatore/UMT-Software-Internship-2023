@@ -130,7 +130,11 @@ Parcurgem primul interval, din doi in doi, stocand limitele fiecarui interval in
 	return availableTime;  
 }
 ```
-Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a gasi intervale care se intersecteaza. Ca doua intervale sa se intersecteze maximul dintre limitele inferioare trebuie sa fie mai mic decat minimul dintre limitele superioare. De exemplu, intervalul [10:30&rarr;12:00] se intersecteaza cu [11:30&rarr;12:30] deoarece 11:30 < 12:30. 
+Pentru fiecare interval din primul calendar parcurgem intervalele din al doilea calendar pentru a gasi intervale care se intersecteaza. Ca doua intervale sa se intersecteze maximul dintre limitele inferioare trebuie sa fie mai mic decat minimul dintre limitele superioare. De exemplu, pentru intervalele [10:30&rarr;12:00] si [11:30&rarr;12:30]
+- limitele inferioare sunt 10:30 si 11:30, maximul fiind **11:30**
+- limitele superioare sunt 12:00 si 12:30, minimul fiind **12:00**
+Deoarece **11:30** este mai mic decat **12:00** intervelele se intersecteaza.
+
 
 
 
