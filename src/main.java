@@ -66,29 +66,29 @@ public class main {
         if(t1.equals(t2)) return t1;
         return t2;
     }
-        public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){//aici se intampla magia
-            //primim ca si parametrii doua liste cu intervalele libere si timpul de intalnire
-            List<LocalTime> availableTime = new ArrayList<>();//lista in care stocam intervalele libere
-            //in aceasta functie luam fiecare interval din primul calendar si verificam cu care interval se potriveste din al doilea calendar
-            for(int j=0;j<calendar1.size()-1;j+=2)//parcurgem primul calendar din 2 in 2
+    public static List<LocalTime> findAvailableTime(List<LocalTime> calendar1, List<LocalTime> calendar2, long meetingTime){//aici se intampla magia
+        //primim ca si parametrii doua liste cu intervalele libere si timpul de intalnire
+        List<LocalTime> availableTime = new ArrayList<>();//lista in care stocam intervalele libere
+        //in aceasta functie luam fiecare interval din primul calendar si verificam cu care interval se potriveste din al doilea calendar
+        for(int j=0;j<calendar1.size()-1;j+=2)//parcurgem primul calendar din 2 in 2
+        {
+            LocalTime limitaJos = calendar1.get(j);//stocam limita de jos a primului interval liber
+            LocalTime limitaSus = calendar1.get(j + 1);//stocam limita de sus a primului interval liber
+            for (int i = 0; i < calendar2.size() - 1; i += 2)//parcurgem cel de-al doilea calendar
             {
-                LocalTime limitaJos = calendar1.get(j);//stocam limita de jos a primului interval liber
-                LocalTime limitaSus = calendar1.get(j+1);//stocam limita de sus a primului interval liber
-                for(int i=0;i<calendar2.size()-1;i+=2)//parcurgem cel de-al doilea calendar
-                {
-                    LocalTime max = timeMax(limitaJos,calendar2.get(i));//maximul dintre limitele de jos ale intervalelor
-                    LocalTime min = timeMin(limitaSus,calendar2.get(i+1));//minimul dintre limitele de sus ale intervalelor
-                    if((max.compareTo(min) < 0) && max.until(min, ChronoUnit.MINUTES) >= meetingTime) {
-                        //daca maximul dintre limitele de jos ale intervalelor este mai mic decat minimul dintre limitele de sus ale intervalelor
-                        //si diferenta dintre aceste doua intervale este mai mare sau egala cu timpul necesar de intalnire
-                        //atunci avem un interval in care cele doua persoane se pot intalni
-                        availableTime.add(max);
-                        availableTime.add(min);//le adaugam in noua lista
-                    }
+                LocalTime max = timeMax(limitaJos, calendar2.get(i));//maximul dintre limitele de jos ale intervalelor
+                LocalTime min = timeMin(limitaSus, calendar2.get(i + 1));//minimul dintre limitele de sus ale intervalelor
+                if ((max.compareTo(min) < 0) && max.until(min, ChronoUnit.MINUTES) >= meetingTime) {
+                    //daca maximul dintre limitele de jos ale intervalelor este mai mic decat minimul dintre limitele de sus ale intervalelor
+                    //si diferenta dintre aceste doua intervale este mai mare sau egala cu timpul necesar de intalnire
+                    //atunci avem un interval in care cele doua persoane se pot intalni
+                    availableTime.add(max);
+                    availableTime.add(min);//le adaugam in noua lista
                 }
             }
-            return availableTime;//returnam lista completa
         }
+        return availableTime;//returnam lista completa
+    }
     public static void afisare(List<LocalTime> availableTime) {
         //primim ca si parametru lista cu intervalele in care cele doua persoane se pot intalni
         StringBuilder availableTimeFormat = new StringBuilder();//in continuare formatam lista
