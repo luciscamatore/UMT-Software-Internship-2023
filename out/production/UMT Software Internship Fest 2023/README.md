@@ -3,9 +3,9 @@ Codul se găsește în fișierul **main.java**
 
 Presupunerile pe care le-am făcut:
 
-- orele din calendare sunt doar din 30 în 30 de minute sau din ora în ora;
 - intervalele primite sunt cele ocupate;
 - timpul de întâlnire este doar în minute;
+- input-ul conține doar intervalele de timp, fară alte cuvinte
 
 Ideea pe care am abordat-o este următoarea:
 - după primirea input-ului, formatăm textul, eliminând parantezele, apostroafele, virgulele și spațiile care nu sunt necesare;
@@ -183,9 +183,9 @@ public static void main(String[] args) {
 ```
 În funcția **main()** citim fiecare calendar împreună cu limitele sale și timpul de întâlnire. Deoarece funcția **until()** ne retureneaza o valoare de tip **long**, timpul de întâlnire trebuie să fie și el la rândul lui de tip **long**.
 
-În continaure sunt prezentate câteva teste realizate cu acest algoritm.
+În continuare sunt prezentate câteva teste realizate cu acest algoritm.
 ```JAVA
-Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']]
 Limite1: ['9:00','20:00']
         
 Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
@@ -197,7 +197,7 @@ Rezultat: [['11:30','12:00'],['15:00','16:00'],['18:00','18:30']]
 ```
 
 ```JAVA
-Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]
+Calendar1: [['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00']]
 Limite1: ['8:00','20:00']
         
 Calendar2: [['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
@@ -233,13 +233,13 @@ Rezultat: [['08:00','11:00'],['11:30','12:00'],['15:00','16:00'],['18:00','19:00
 ```
 
 ```JAVA
-Calendar1: [['12:00','13:00'], ['16:00','18:00], ['19:00','19:30']]
-Limite1: ['8:00','19:30']
+Calendar1: [['12:00','12:30'], ['16:00','17:00], ['19:00','19:30']]
+Limite1: ['8:00','21:00']
         
-Calendar2: [['11:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]
-Limite2: ['8:00','20:00']
+Calendar2: [['11:00','11:30'], ['12:30','13:00], ['13:30','14:00'], ['15:00','16:00'], ['17:30','18:00'], ['19:30','20:00']]
+Limite2: ['8:00','21:00']
         
 Timp de intalnire: 30
         
-Rezultat: [['08:00','11:00'],['11:30','12:00'],['15:00','16:00'],['18:00','19:00']]
+Rezultat: [['08:00','11:00'],['11:30','12:00'],['13:00','13:30'],['14:00','15:00'],['17:00','17:30'],['18:00','19:00'],['20:00','21:00']]
 ```
