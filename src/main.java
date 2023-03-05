@@ -103,20 +103,20 @@ public class main {
 
     public static void main(String[] args) {
         System.out.println("Introduceti datele pentru primul calendar: ");
-        //List<LocalTime> calendar1 = convertInput("[['9:00','10:30'], ['12:00','13:00'], ['16:00','18:00]]");
-        List<LocalTime> calendar1 = read();
+        List<LocalTime> calendar1 = convertInput("[['9:00','9:45'], ['10:00','12:25'], ['13:18','14:00'], ['14:50','15:01'], ['16:37','18:00]]");
+        //List<LocalTime> calendar1 = read();
 
         System.out.println("Introduceti limitele pentru primul calendar: ");
-        //List<LocalTime> limit1 = convertInput("['9:00','20:00']");
-        List<LocalTime> limit1 = read();
+        List<LocalTime> limit1 = convertInput("['8:00','20:00']");
+        //List<LocalTime> limit1 = read();
 
         System.out.println("Introduceti datele pentru al doilea calendar: ");
-        //List<LocalTime> calendar2 = convertInput("[['10:00','11:30'], ['12:30','14:30'], ['14:30','15:00], ['16:00','17:00']]");
-        List<LocalTime> calendar2 = read();
+        List<LocalTime> calendar2 = convertInput("[['10:00','11:30'], ['12:30','14:30'], ['14:30','15:40], ['16:20','17:00']]");
+        //List<LocalTime> calendar2 = read();
 
         System.out.println("Introduceti limitele pentru al doilea calendar: ");
-        //List<LocalTime> limit2 = convertInput("['10:00','18:30']");
-        List<LocalTime> limit2 = read();
+        List<LocalTime> limit2 = convertInput("['8:00','18:30']");
+        //List<LocalTime> limit2 = read();
 
         System.out.println("Introduceti timpul minim poentru o intalnire: ");
         Scanner scanner = new Scanner(System.in);//creeam o variabila scanner pentru a putea citi timpul de intalnire
