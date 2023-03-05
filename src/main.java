@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class main {
     private static List<LocalTime> convertInput(String text) {
         //primim ca si argument un string de forma [['9:00','10:30'], ['16:00','18:00]]
-        text = text.replaceAll("[\\[\\]]", ""); //eliminam parantezele patrate
-        text = text.replaceAll("'", ""); //eliminam apostroafele
-        text = text.replaceAll(", ", " "); //eliminam virgula si spatiul pentru a nu avea spatii duble
-        text = text.replaceAll(",", " "); //eliminam virgula simpla
+        text = text.replaceAll("[\\[\\]]", ""); // eliminam parantezele patrate
+        text = text.replaceAll("'", ""); // eliminam apostroafele
+        text = text.replaceAll(", ", " "); // eliminam virgula si spatiul pentru a nu avea spatii duble
+        text = text.replaceAll(",", " "); // eliminam virgula simpla
         //in final string-ul o sa fie de forma 9:00 10:30 16:00 18:00
         String[] str = text.split(" "); // in str introducem toate orele separate la feicare spatiu
         List<LocalTime> input = new ArrayList<>(); //lista in care o sa fie output-ul de tipul LocalTime
